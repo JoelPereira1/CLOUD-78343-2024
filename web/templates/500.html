@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+500 Error - Internal Server Error
+{% endblock %}
+
+
+{% block content %}
+{% include 'message.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+
+      <h1 class="pt-5 pb-2">Internal server error (500)</h1>
+
+      <p><a href="{{ request.referrer }}">Back</a></p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

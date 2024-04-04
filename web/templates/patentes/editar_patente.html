@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+{% include 'message.html' %}
+<!--
+	TIPS about using Bootstrap-Flask:
+	https://github.com/helloflask/bootstrap-flask
+	https://bootstrap-flask.readthedocs.io/
+-->
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+      <h1 class="pt-5 pb-2">Welcome to the best movie actors Flask example!</h1>
+      <p class="lead">This is the index page for an example Flask app using Bootstrap and WTForms. Note that <em>only
+          100 actors</em> are in the data source. Partial names are not valid.</p>
+      <form action="{{ url_for('editarpatente',id=patente.ID) }}" method="post">
+        <div class="col-md-12">
+          <p>ID: {{ patente.ID }}</p>
+        </div>
+        <div class="form-group">
+          <label for="txtNome">Nome</label>
+          <input type="input" class="form-control" id="txtNome" name="txtNome" value="{{patente.Nome}}" placeholder="Nome">
+        </div>
+        <div class="form-group">
+          <label for="txtIniciais">Iniciais</label>
+          <input type="input" class="form-control" id="txtIniciais" name="txtIniciais" value="{{patente.Iniciais}}" placeholder="Iniciais">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a href="{{url_for('patentes')}}" class="btn btn-danger" role="button">Cancelar</a>
+      </form>
+      <p class="pt-5"><strong>{{ message }}</strong></p>
+    </div>
+  </div>
+</div>
+{% endblock %}
