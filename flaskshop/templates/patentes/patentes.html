@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+
+{% include 'message.html' %}
+<p>
+  <a href="{{ url_for('inserirpatente')}}" class="btn btn-primary" role="button">Nova patente</a>
+</p>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th class="text-center">ID</th>
+      <th class="text-center">Nome</th>
+      <th class="text-center">Iniciais</th>
+      <th class="text-center">Acções</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in patentes %}
+    <tr>
+      <td class="text-center">{{ t.ID }}</td>
+      <td class="text-center">{{ t.Nome }}</td>
+      <td class="text-center">{{ t.Iniciais }}</td>
+      <td class="text-center">
+        <a href="verpatente/{{t.ID}}" class="btn btn-primary" role="button">Ver Patente</a>
+        <a href="editarpatente/{{t.ID}}" class="btn btn-success" role="button">Editar Patente</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#patenteModalCenter{{t.ID}}">
+          Eliminar
+        </button>
+      </td>
+    </tr>
+
+    <!-- Modal -->
+    <div class="modal fade" id="patenteModalCenter{{t.ID}}">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="patenteModalLongTitle{{t.ID}}">Remover Patente</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Esta ação irá remover do registo do</p>
+            <h3>Patente Nome: {{t.Nome}}</h3>
+            <p>Tem a certeza?</p>
+          </div>
+          <div class="modal-footer">
+            <form action="{{url_for('eliminarpatente', id=t.ID)}}" method="post">
+              <!-- Make the secret key work -->
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+

@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+
+{% include 'message.html' %}
+<p>
+  <a href="{{ url_for('inserircosmosmilitar')}}" class="btn btn-primary" role="button">Novo militar</a>
+</p>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th class="text-center">ID</th>
+      <th class="text-center">Foto</th>
+      <th class="text-center">NIM</th>
+      <th class="text-center">Patente</th>
+      <th class="text-center">CC</th>
+      <th class="text-center">Nome</th>
+      <th class="text-center">Apelido</th>
+      <th class="text-center">Idade</th>
+      <th class="text-center">Acções</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in militares %}
+    <tr>
+      <td class="text-center">{{ t.ID }}</td>
+      <td>
+        <a href={{ t.FotoUrl(accountstorage, blobcontainer, IsCosmos = True) }} download>
+          <img width="60" height="40" src={{ t.FotoUrl(accountstorage, blobcontainer, IsCosmos = True) }}>
+        </a>
+      </td>
+      <td class="text-center">{{ t.NIM }}</td>
+      <td class="text-center">{{ t.militarpatente }}</td>
+      <td class="text-center">{{ t.CC }}</td>
+      <td class="text-center">{{ t.Nome }}</td>
+      <td class="text-center">{{ t.Apelido }}</td>
+      <td class="text-center">{{ t.Idade }}</td>
+      <td class="text-center">
+        <a href="vercosmosmilitar/{{t.ID}}" class="btn btn-primary" role="button">Ver Militar</a>
+        <a href="editarcosmosmilitar/{{t.ID}}" class="btn btn-success" role="button">Editar Militar</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#militarModalCenter{{t.id}}">
+          Eliminar
+        </button>
+      </td>
+    </tr>
+
+    <!-- Modal -->
+    <div class="modal fade" id="militarModalCenter{{t.ID}}">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="militarModalLongTitle{{t.ID}}">Remover Militar</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Esta ação irá remover do registo do</p>
+            <h3>Militar ID: {{t.ID}}</h3>
+            <h3>Militar NIM: {{t.NIM}}</h3>
+            <p>Tem a certeza?</p>
+          </div>
+          <div class="modal-footer">
+            <form action="{{url_for('eliminarcosmosmilitar', id=t.ID)}}" method="post">
+              <!-- Make the secret key work -->
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+

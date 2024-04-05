@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+{% include 'message.html' %}
+<!--
+	TIPS about using Bootstrap-Flask:
+	https://github.com/helloflask/bootstrap-flask
+	https://bootstrap-flask.readthedocs.io/
+-->
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+      <h1 class="pt-5 pb-2">Welcome to the best movie actors Flask example!</h1>
+      <p class="lead">This is the index page for an example Flask app using Bootstrap and WTForms. Note that <em>only
+          100 actors</em> are in the data source. Partial names are not valid.</p>
+      <form action="{{ url_for('editarcosmosmilitar',id=militar.id) }}" method="post">
+        <div class="col-md-12">
+          <p>ID: {{ militar.id }}</p>
+        </div>
+        <div class="form-group">
+          <label for="txtNIM">NIM</label>
+          <input type="input" class="form-control" id="txtNIM" name="txtNIM" value="{{militar.NIM}}" placeholder="Identificação">
+        </div>
+        <div class="form-group">
+          <label for="txtCC">CC</label>
+          <input type="input" class="form-control" id="txtCC" name="txtCC" value="{{militar.CC}}" placeholder="cc">
+        </div>
+        <div class="form-group">
+          <label for="txtNome">Nome</label>
+          <input type="input" class="form-control" id="txtNome" name="txtNome" value="{{militar.Nome}}" placeholder="nome">
+        </div>
+        <div class="form-group">
+          <label for="txtApelido">Apelido</label>
+          <input type="input" class="form-control" id="txtApelido" name="txtApelido" value="{{militar.Apelido}}" placeholder="apelido">
+        </div>
+        <div class="form-group">
+          <label for="txtPatente">Patente</label>
+          <select id="txtPatente" name="txtPatente" onchange="update_selected_option_value(this.value)" value={{ militar.Patente }}>
+            <option value=''></option>
+            {% for patente in patentes %}
+              <option value="{{ patente.Nome }}">{{ patente.Nome }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="txtIdade">Idade</label>
+          <input type="input" class="form-control" id="txtIdade" name="txtIdade" value="{{militar.Idade}}" placeholder="idade">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a href="{{url_for('cosmosmilitares')}}" class="btn btn-danger" role="button">Cancelar</a>
+      </form>
+      <p class="pt-5"><strong>{{ message }}</strong></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  var selected_option = document.getElementById('txtPatente');
+  var i;
+  for (i = 0; i < selected_option.length; i++) {
+    if(selected_option.getAttribute('value') == selected_option.options[i].value) {
+      selected_option.options[i].setAttribute('selected', true);
+    }
+  }
+</script>
+
+<script>
+  function update_selected_option_value(value) {
+    document.getElementById('txtPatente').value = value;
+  }
+</script>
+{% endblock %}
