@@ -2,15 +2,14 @@
   "python.analysis.extraPaths": [
     "./modules/databases",
     "./modules/cosmosdb",
-    "./flaskshop/",
-    "./packages/",
-    "./models/",
-    "./models/",
-    "./models/challenge/",
-    "./models/community/",
-    "./models/customer/",
-    "./models/product/",
-    "./models/order/",
-    "./models/post/",
+    "./flaskshop",
+    "./packages",
+    "./models",
+    "./models/challenge",
+    "./models/blog",
+    "./models/order",
+    "./models/post",
+    "./models/product",
+    "./models/user"
   ]
 }

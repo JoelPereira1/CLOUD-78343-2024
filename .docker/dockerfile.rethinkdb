@@ -1,0 +1,64 @@
+FROM ubuntu:latest
+
+# Install RethinkDB.
+RUN apt-get update && \
+  apt-get install -y \
+  build-essential \
+  curl \
+  wget \
+  libprotobuf23 \
+  lsb-release \
+  gpg gnupg2 \
+  software-properties-common \
+  apt-transport-https \
+  ca-certificates \
+  gnupg2
+
+# Download the public key.
+# RUN wget -qO- https://download.rethinkdb.com/repository/raw/pubkey.gpg | apt-key add -
+RUN apt update
+# RUN wget -O- http://download.rethinkdb.com/apt/pubkey.gpg | apt-key add - && apt update
+RUN wget -qO- https://download.rethinkdb.com/repository/raw/pubkey.gpg|gpg --dearmor -o /usr/share/keyrings/rethinkdb-archive-keyrings.gpg
+
+# Add the repository.
+# RUN echo "deb https://download.rethinkdb.com/repository/ubuntu-`lsb_release -cs` `lsb_release -cs` main" > /etc/apt/sources.list.d/rethinkdb.list \
+# RUN echo "deb http://download.rethinkdb.com/apt `lsb_release -cs` main" > /etc/apt/sources.list.d/rethinkdb.list \
+RUN echo  "deb [signed-by=/usr/share/keyrings/rethinkdb-archive-keyrings.gpg] https://download.rethinkdb.com/repository/ubuntu-`lsb_release -cs` `lsb_release -cs` main" > /etc/apt/sources.list.d/rethinkdb.list \
+  && apt update \
+  && apt install -y rethinkdb python3-pip
+
+
+# RUN apt update \
+#   && echo "deb http://download.rethinkdb.com/apt `lsb_release -cs` main" > /etc/apt/sources.list.d/rethinkdb.list \
+#   && wget -O- http://download.rethinkdb.com/apt/pubkey.gpg | apt-key add - \
+#   && apt update \
+#   && apt install -y rethinkdb python-pip
+  # && rm -rf /var/lib/apt/lists/*
+
+# Install python driver for rethinkdb
+RUN pip install rethinkdb
+
+# Define mountable directories.
+VOLUME ["/data"]
+
+# Define working directory.
+
+WORKDIR /data
+
+# Define default command.
+
+CMD ["rethinkdb", "--bind", "all"]
+
+# Expose ports.
+
+# - 8080: web UI
+
+# - 28015: process
+
+# - 29015: cluster
+
+EXPOSE 8090
+
+EXPOSE 28015
+
+EXPOSE 29015

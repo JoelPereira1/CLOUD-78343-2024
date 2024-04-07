@@ -16,9 +16,3 @@ class Dayli:
         self.id = id
     else:
       self.id = id
-
-  def __str__(self):
-    return f"{self.first_name}  {self.last_name}"
-
-  def identification(self):
-    return f"{self.email} - {self.user_name}"

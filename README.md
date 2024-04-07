@@ -28,7 +28,8 @@ docker run --name flower_shop  python-docker
 # Docker Compose
 docker compose build
 
-
+infisical
+infisicaladmin
 
 
 

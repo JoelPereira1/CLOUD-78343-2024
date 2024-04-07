@@ -7,18 +7,20 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from flaskshop import app
 from datetime import datetime
 #
-from plant import Plant
-from fungi import Fungi
-from algea import Algae
-from daily import Dayli
-from post import Post
+from models.product.plant import Plant
+from models.product.fungi import Fungi
+from models.product.algea import Algae
+
+from models.challenge.daily import Dayli
+from models.blog.blog import Blog
 #
-from customer import Customer
-from customer import Review
+from models.user.user import User
+from models.user.customer import Customer
+from models.user.review import Review
 #
-from order import Oder
-from order_product import OderProduct
-from checkout import Checkout
+from models.order.order import Oder
+from models.order.order_product import OderProduct
+from models.order.checkout import Checkout
 
 # COSMOS DB
 import modules.cosmosdb.db_read as CosmosBbRead

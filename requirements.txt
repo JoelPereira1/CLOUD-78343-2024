@@ -7,3 +7,4 @@ flask_bootstrap5
 azure.cosmos
 azure.storage.blob
 flask_wtf
+rethinkdb
