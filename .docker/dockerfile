@@ -11,8 +11,9 @@ FROM python:3.10
 WORKDIR /app
 COPY . .
 
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
-ENV PYTHONPATH="${PYTHONPATH}:/app/modules/databases:/app/modules/cosmosdb:/app/flaskshop:/app/models:/app/models/challenge:/app/models/blog:/app/models/customer:/app/models/order:/app/models/product:/app/models/post:/app/packages"
+ENV PYTHONPATH="${PYTHONPATH}:/app/modules/databases:/app/modules/cosmosdb:/app/modules/rethinkdb:/app/flaskshop:/app/models:/app/models/challenge:/app/models/blog:/app/models/customer:/app/models/order:/app/models/product:/app/models/post:/app/packages"
 
 WORKDIR /app/flaskshop
 ENV FLASK_APP=/app/flaskshop/app.py
@@ -23,3 +24,9 @@ EXPOSE 5000
 CMD python -m flask run --host=0.0.0.0 --debug
 
 # CMD [ "python", "-m flask run --debug" ]
+
+
+# ENV PYTHONDONTWRITEBYTECODE 1
+# ENV PYTHONUNBUFFERED 1
+# ENV DEBIAN_FRONTEND=noninteractive
+# CMD ["python", "-m", "debugpy", "--listen", "0.0.0.0:5679", "app.py"]

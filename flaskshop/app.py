@@ -2,10 +2,11 @@
 import os
 from flaskshop.settings import *
 from modules.databases.initdb import init_database
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, g
 # from flask_wtf import CSRFProtect
 from flaskshop import app
 from datetime import datetime
+import time
 #
 from models.product.plant import Plant
 from models.product.fungi import Fungi
@@ -29,6 +30,12 @@ import modules.cosmosdb.db_delete as CosmosBbDelete
 
 # BlobContainer Azure
 from packages.blobs import Blobs
+
+
+# Rethinkdb
+import modules.rethinkdb.initdb as Rethinkdb
+import modules.rethinkdb.db_read as RethinkBbRead
+import modules.rethinkdb.db_write as RethinkBbWrite
 
 if __name__=="__main__":
   app.run(host="0.0.0.0", debug=True)
@@ -56,6 +63,17 @@ SUBMIT_METHODS = {"POST", "PUT", "PATCH", "DELETE"}
 @app.route('/')
 @app.route('/home')
 def home():
+  Rethinkdb.init_database('rethinkdb', 28015, 'blogs', 'Passw0rd!', 'tblBosts')
+
+
+  # blogs = RethinkBbRead.GetAll('blogs', 'tblBosts', None, None, 'id', limit = False, limit_num = 3, limit_col = None)
+  # n = 7
+  # for i in range(n):
+  #   # n is excluded
+  #   obj = {'id': i, 'customer_id': 3, 'response': 'Hi', 'daily_id': 3, 'chat_id': 3}
+  #   print(obj)
+  #   RethinkBbWrite.Insert('blogs', 'tblBosts', obj)
+
   return render_template("index.html",title="Home Page",year=datetime.now().year)
 
 @app.route('/about')

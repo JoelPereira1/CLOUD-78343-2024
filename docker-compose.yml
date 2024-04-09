@@ -11,7 +11,7 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - redis_data:/data
+      - ./persistent/redis_data:/data
     ports:
       - 6379:6379
     networks:
@@ -28,9 +28,9 @@ services:
       - postgresql_network
       - infisical_network
     volumes:
-      - ./init-scripts:/docker-entrypoint-initdb.d
-      - ./postgresql:/var/lib/postgresql
-      - ./postgresql_data:/var/lib/postgresql/data
+      - ./.docker/init-scripts:/docker-entrypoint-initdb.d
+      - ./persistent/postgresql:/var/lib/postgresql
+      - ./persistent/postgresql_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: infisical
       POSTGRES_PASSWORD: infisical
@@ -66,7 +66,7 @@ services:
     networks:
       - postgresql_network
     volumes:
-      - ./pgadmin4:/var/lib/pgadmin
+      - ./persistent/pgadmin4:/var/lib/pgadmin
 
       # -e PGADMIN_DEFAULT_EMAIL=user@domain.com -e PGADMIN_DEFAULT_PASSWORD=catsarecool -d dpage/pgadmin4
 
@@ -130,7 +130,7 @@ services:
         rethinkdb create --initial-password Passw0rd!
         rethinkdb --bind all
     volumes:
-      - rethinkdb_data:/data
+      - ./persistent/rethinkdb_data:/data
     deploy:
       resources:
         limits:
@@ -150,7 +150,9 @@ services:
       redis_network:
       rethinkdb_net:
     ports:
-      - "5000:5000"
+      - 5000:5000
+      # - 5679:5679
+    # entrypoint: [ "python", "-m", "debugpy", "--listen", "0.0.0.0:5679", "-m", "app",  "--wait-for-client", "--multiprocess", "-m", "flask", "run", "-h", "0.0.0.0", "-p", "5000" ]
     deploy:
       resources:
         limits:

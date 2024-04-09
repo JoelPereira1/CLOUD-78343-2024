@@ -2,6 +2,7 @@
   "python.analysis.extraPaths": [
     "./modules/databases",
     "./modules/cosmosdb",
+    "./modules/rethinkdb",
     "./flaskshop",
     "./packages",
     "./models",
